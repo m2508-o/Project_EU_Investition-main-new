@@ -53,20 +53,20 @@ app.get('/api/load-projects', async (req, res) => {
                 };
             });
 
-            // Insert projects with transaction session
+           
             await Project.insertMany(projects, { session });
 
             hasNextPage = !!response.data.links.next;
             page++;
         }
 
-        // Commit the transaction
+        
         await session.commitTransaction();
         session.endSession();
 
         res.json({ message: 'Projects loaded successfully' });
     } catch (error) {
-        // Abort the transaction in case of an error
+        
         await session.abortTransaction();
         session.endSession();
         console.error('Error loading projects', error);
@@ -100,7 +100,7 @@ app.get('/api/projects', async (req, res) => {
         }
         if (location) {
             if (location === 'Wszystkie') {
-                // No additional filtering needed
+                
             } else if (location === 'Cały Kraj') {
                 match.projectLocation = 'Cały Kraj';
             } else if (location === 'Inne') {
